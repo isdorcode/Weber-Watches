@@ -42,7 +42,7 @@ const Text = () => {
           <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-4 sm:mb-6 text-center transform transition-all duration-500 ease-in-out">
             {bannerContents[currentIndex].title}
           </h1>
-          <p className="text-base sm:text-lg text-center transform transition-all duration-500 ease-in-out w-full sm:w-3/4 md:w-1/2 px-1 sm:px-4">
+          <p className="text-base sm:text-lg text-center transform transition-all duration-500 ease-in-out w-full sm:w-3/4 md:w-1/2 px-2 sm:px-4">
             {bannerContents[currentIndex].text}
           </p>
           <div className="mt-6 sm:mt-8">

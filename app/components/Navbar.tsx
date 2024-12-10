@@ -37,7 +37,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentBannerIndex }) => {
       <div
         className={`Header flex items-center justify-between px-4 sm:px-6 lg:px-8 ${
           isScrolled ? 'bg-white text-black' : 'bg-white text-gray-800'
-        } fixed top-0 left-0 w-full z-50 transition-all duration-300 shadow-md h-16 sm:h-20`}
+        }  w-full z-50 transition-all duration-300 shadow-md h-16 sm:h-20`}
       >
         {/* Logo Section */}
         <div className="flex-shrink-0 w-16 sm:w-32 h-full flex items-center justify-center">
