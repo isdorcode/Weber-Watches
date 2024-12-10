@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-
+import Image from 'next/image';
 interface NavbarProps {
   currentBannerIndex: number;
 }
@@ -41,7 +41,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentBannerIndex }) => {
       >
         {/* Logo Section */}
         <div className="flex-shrink-0 w-16 sm:w-32 h-full flex items-center justify-center">
-          <img
+          <Image
             src="/Group 22.png"
             alt="logo"
             className="h-12 w-12 sm:w-20 sm:h-20 bg-white object-contain"
@@ -70,7 +70,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentBannerIndex }) => {
             Login
           </button>
           <div className="relative">
-            <img
+            <Image
               src="/mage_shopping-cart-fill1.png"
               alt="Cart"
               className="bg-yellow-600 cursor-pointer p-2 rounded-full w-10 h-10 hover:bg-yellow-500 transition-colors duration-200"

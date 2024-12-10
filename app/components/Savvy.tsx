@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-
+import Image from 'next/image';
 // Define the Watch interface to type the smartWatches data
 interface Watch {
   id: number;
@@ -61,7 +61,7 @@ function TechSavyWatches() {
       <div className="md:flex justify-between items-center gap-6 lg:flex-row">
         {smartWatches.map((watch) => (
           <div key={watch.id} className="bg-white p-4 sm:p-6 rounded-lg mb-5">
-            <img src={watch.image} alt={watch.title} className="smart-watch-image" loading="lazy" />
+            <Image src={watch.image} alt={watch.title} className="smart-watch-image" loading="lazy" />
             <div className="flex flex-col items-center justify-center">
               <h3 className="text-base text-black font-medium pt-5 text-center">{watch.title}</h3>
               <p className="text-black font-normal text-base pt-2 text-center">{watch.features}</p>
@@ -81,7 +81,7 @@ function TechSavyWatches() {
         <div className="bg-indigo-800 absolute top-96 h-auto m-auto rounded-lg w-full lg:max-w-4xl p-1 sm:p-4" style={{ margin: '-20px' }}>
           <span className="text-white text-3xl cursor-pointer px- sm:px-4 pt-5" onClick={closeModal}>&times;</span>
           <div className="sm:flex sm:flex-row items-start justify-start gap-8 mt-3 p-4">
-            <img
+            <Image
               src={selectedWatch.image}
               alt={selectedWatch.title}
               className="w-full h-56 sm:w-96 sm:h-96 object-cover rounded-lg"
