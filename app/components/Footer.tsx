@@ -51,7 +51,7 @@ function Footer() {
       <div className="px-6 ml-0 sm:ml-8 grid grid-cols-3 gap-4 text-sm py-6 text-black">
         <span>Terms & Conditions</span>
         <span>Privacy Policy</span>
-        <span>Copyrights 2024 @ WeberWatches. All Rights Reserved</span>
+        <span>Copyrights 2024@ WeberWatches. All Rights Reserved</span>
       </div>
     </>
   );
