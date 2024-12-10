@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { ShoppingCart, ChevronLeft, ChevronRight } from 'lucide-react';
+import Image from 'next/image';
 
 const watches = [
   { id: 1, name: "Plain Silicon", price: 69.90, image: '/white.png', category: "Basic", description: "Sleek and simple silicon watch for everyday use", stock: 10 },
@@ -15,21 +16,27 @@ const watches = [
 function Popular() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [cart, setCart] = useState({});
-  const itemsPerSlide = 3;
+  const [showCartPopup, setShowCartPopup] = useState(false);
+  const [addedToCartId, setAddedToCartId] = useState(null);
+  const [itemsPerSlide, setItemsPerSlide] = useState(3);
   const totalSlides = Math.ceil(watches.length / itemsPerSlide);
 
-  // Load the cart from localStorage on initial render
+  // Handle window resize for responsive itemsPerSlide
   useEffect(() => {
-    const savedCart = JSON.parse(localStorage.getItem('cart')) || {};
-    setCart(savedCart);
-  }, []);
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setItemsPerSlide(1);
+      } else if (window.innerWidth < 1024) {
+        setItemsPerSlide(2);
+      } else {
+        setItemsPerSlide(3);
+      }
+    };
 
-  // Update localStorage whenever the cart changes
-  useEffect(() => {
-    if (Object.keys(cart).length > 0) {
-      localStorage.setItem('cart', JSON.stringify(cart));
-    }
-  }, [cart]);
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Initial call to set itemsPerSlide based on current window size
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % totalSlides);
@@ -40,14 +47,23 @@ function Popular() {
   };
 
   const addToCart = (watchId) => {
-    const updatedCart = { ...cart };
-    const currentQuantity = updatedCart[watchId] || 0;
-    const watch = watches.find((w) => w.id === watchId);
+    setCart((prevCart) => {
+      const currentQuantity = prevCart[watchId] || 0;
+      const watch = watches.find(w => w.id === watchId);
 
-    if (currentQuantity < watch.stock) {
-      updatedCart[watchId] = currentQuantity + 1;
-      setCart(updatedCart);
-    }
+      if (currentQuantity < watch.stock) {
+        setAddedToCartId(watchId);
+        setTimeout(() => setAddedToCartId(null), 2000);
+
+        return {
+          ...prevCart,
+          [watchId]: currentQuantity + 1
+        };
+      }
+      return prevCart;
+    });
+    setShowCartPopup(true);
+    setTimeout(() => setShowCartPopup(false), 3000);
   };
 
   const getCurrentSlideItems = () => {
@@ -56,38 +72,77 @@ function Popular() {
     return watches.slice(startIndex, endIndex);
   };
 
+  const getTotalItems = () => {
+    return Object.values(cart).reduce((sum, quantity) => sum + quantity, 0);
+  };
+
   return (
-    <div className="bg-white py-10">
+    <div className="bg-white py-10 relative">
       <h2 className="text-4xl text-black text-center font-bold pb-5">Popular Watches</h2>
 
-      <div className="relative max-w-6xl mx-auto">
+      {/* Cart Summary */}
+      <div className="absolute top-4 right-4 flex items-center gap-2">
+        <div className="relative">
+          <ShoppingCart className="w-6 h-6 text-yellow-600" />
+          {getTotalItems() > 0 && (
+            <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+              {getTotalItems()}
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* Cart Popup */}
+      {showCartPopup && (
+        <div className="fixed top-4 right-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded z-50">
+          Item added to cart!
+        </div>
+      )}
+
+      <div className="relative max-w-6xl mx-auto px-4">
         <div className="carousel-container overflow-hidden">
           <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {getCurrentSlideItems().map((watch) => (
-              <li
+              <li 
                 key={watch.id}
-                className="flex flex-col items-center justify-between p-6 rounded-2xl shadow-lg bg-white transform transition-all duration-300 hover:scale-105"
+                className="flex flex-col items-center justify-between p-6 rounded-2xl shadow-lg transform transition-all duration-300 hover:shadow-xl hover:scale-102 bg-white"
               >
-                <h4 className="text-yellow-600 text-lg font-medium mb-4">{watch.name}</h4>
-                <img
-                  src={watch.image}
-                  alt={watch.name}
-                  className="h-56 w-full object-contain"
-                />
-                <p className="text-lg font-bold my-3 text-black">${watch.price.toFixed(2)}</p>
-                <div className="flex gap-4">
-                  <button
-                    className="flex items-center gap-2 text-sm text-yellow-600 border-2 border-yellow-600 py-2 px-4 rounded-xl hover:bg-yellow-600 hover:text-white transition-colors duration-300"
-                  >
-                    <ShoppingCart className="w-5 h-5" />
-                    Buy Now
-                  </button>
-                  <button
-                    onClick={() => addToCart(watch.id)}
-                    className="bg-yellow-600 hover:bg-yellow-700 p-2 rounded-full"
-                  >
-                    <ShoppingCart className="w-6 h-6 text-white" />
-                  </button>
+                <div className="relative w-full">
+                  <h4 className="text-yellow-600 text-lg font-medium mb-4">{watch.name}</h4>
+                  <Image 
+                    src={watch.image} 
+                    alt={watch.name} 
+                    className="h-56 w-full object-contain" 
+                    loading="lazy"
+                  />
+                  {addedToCartId === watch.id && (
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-500 text-white px-4 py-2 rounded-full">
+                      Added to Cart!
+                    </div>
+                  )}
+                </div>
+
+                <div className="w-full mt-4">
+                  <p className="text-gray-600 text-center">WEBERWATCHES</p>
+                  <p className="text-xl font-bold text-center my-3 text-black">${watch.price.toFixed(2)}</p>
+
+                  <div className="flex items-center justify-between gap-4">
+                    <button 
+                      className="flex-1 w-10 text-sm text-yellow-600 border-2 border-yellow-600 py-2 px-4 rounded-xl hover:bg-yellow-600 hover:text-white transition-colors duration-300"
+                    >
+                      Buy Now
+                    </button>
+                    <button
+                      onClick={() => addToCart(watch.id)}
+                      disabled={cart[watch.id] >= watch.stock}
+                      className={`p-2 rounded-full ${cart[watch.id] >= watch.stock ? 'bg-gray-400 cursor-not-allowed' : 'bg-yellow-600 hover:bg-yellow-700'} transition-colors duration-300`}
+                    >
+                      <ShoppingCart className="w-6 h-6 text-white" />
+                    </button>
+                  </div>
+                  <p className="text-sm text-gray-500 mt-2">
+                    {watch.stock - (cart[watch.id] || 0)} items left in stock
+                  </p>
                 </div>
               </li>
             ))}
@@ -95,17 +150,17 @@ function Popular() {
         </div>
 
         {/* Navigation Arrows */}
-        <button
+        <button 
           onClick={prevSlide}
-          className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-lg hover:bg-gray-100"
+          className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100"
         >
-          <ChevronLeft className="w-6 h-6 text-gray-800" />
+          <ChevronLeft className="w-6 h-6 text-yellow-600" />
         </button>
-        <button
+        <button 
           onClick={nextSlide}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-lg hover:bg-gray-100"
+          className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100"
         >
-          <ChevronRight className="w-6 h-6 text-gray-800" />
+          <ChevronRight className="w-6 h-6 text-yellow-600" />
         </button>
       </div>
     </div>

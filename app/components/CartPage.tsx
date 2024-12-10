@@ -3,11 +3,12 @@
 import React, { useEffect, useState } from 'react';
 
 const Cart = () => {
-  const [cart, setCart] = useState({});
+  const [cart, setCart] = useState<{ [key: string]: number }>({}); // Explicitly typing the cart state
 
   useEffect(() => {
-    const savedCart = JSON.parse(localStorage.getItem('cart')) || {};
-    setCart(savedCart);
+    const savedCart = localStorage.getItem('cart'); // Get the cart data from localStorage
+    const parsedCart = savedCart ? JSON.parse(savedCart) : {}; // If it's null, fallback to an empty object
+    setCart(parsedCart);
   }, []);
 
   return (
