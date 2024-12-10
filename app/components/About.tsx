@@ -38,7 +38,7 @@ const AboutUs = () => {
             Why Shop With Us
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            At Weber Watches, we believe in delivering the perfect blend of quality, style, and convenience. Here's what makes us stand out:
+            At Weber Watches, we believe in delivering the perfect blend of quality, style, and convenience. Here&apos;s what makes us stand out:
           </p>
         </div>
 
