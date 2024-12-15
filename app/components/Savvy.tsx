@@ -61,7 +61,7 @@ function TechSavyWatches() {
       <div className="md:flex justify-between items-center gap-6 lg:flex-row">
         {smartWatches.map((watch) => (
           <div key={watch.id} className="bg-white p-4 sm:p-6 rounded-lg mb-5">
-            <Image src={watch.image} alt={watch.title} className="smart-watch-image" loading="lazy" />
+            <Image src={watch.image} alt={watch.title} className="smart-watch-image" loading="lazy" width={500} height={300}  />
             <div className="flex flex-col items-center justify-center">
               <h3 className="text-base text-black font-medium pt-5 text-center">{watch.title}</h3>
               <p className="text-black font-normal text-base pt-2 text-center">{watch.features}</p>
@@ -86,6 +86,7 @@ function TechSavyWatches() {
               alt={selectedWatch.title}
               className="w-full h-56 sm:w-96 sm:h-96 object-cover rounded-lg"
               loading="lazy"
+              width={500} height={300} 
             />
             <div className="pt-6">
               <h3 className="text-white text-2xl font-medium pb-2">{selectedWatch.title}</h3>

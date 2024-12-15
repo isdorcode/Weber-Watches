@@ -74,7 +74,7 @@ function ForMen() {
             <div className="flex flex-col items-center justify-center text-sm text-black font-medium">
               {Features.map((feat) => (
                 <div key={feat.id} className="flex flex-col items-center justify-center text-sm text-black font-medium">
-                  <Image src={feat.image} loading="lazy"  alt="Feature image" className="h-14 w-14 object-cover mt-10" />
+                  <Image src={feat.image} loading="lazy"  alt="Feature image" className="h-14 w-14 object-cover mt-10" width={500} height={300} />
                   <p className="pt-2">{feat.description}</p>
                 </div>
               ))}
@@ -87,7 +87,7 @@ function ForMen() {
             <div className="flex flex-col items-center justify-center text-sm text-black font-medium">
               {Rending.map((feat) => (
                 <div key={feat.id} className="flex flex-col items-center justify-center text-sm text-black font-medium">
-                  <Image src={feat.image} alt="Rending image" className="h-14 w-14 object-cover mt-10"  loading="lazy" />
+                  <Image src={feat.image} alt="Rending image" className="h-14 w-14 object-cover mt-10"  loading="lazy" width={500} height={300}  />
                   <p className="pt-2">{feat.description}</p>
                 </div>
               ))}
@@ -102,7 +102,7 @@ function ForMen() {
               <div key={color.id} className="flex flex-col items-center justify-center text-center bg-white shadow-sm shadow-black w-full rounded-lg p-3">
                 <p className="pt-2 text-black text-xl font-medium pb-2">{color.name}</p>
                 <p className="text-xs text-gray-700">{color.quality}</p>
-                <Image src={color.image} alt="Color image" className="h-40 w-40 object-cover mt-10"  loading="lazy" />
+                <Image src={color.image} alt="Color image" className="h-40 w-40 object-cover mt-10"  loading="lazy" width={500} height={300} />
               </div>
             ))}
           </div>
@@ -127,6 +127,7 @@ function ForMen() {
                 <Image 
                   src={item.image} 
                   alt={item.btn}
+                  width={500} height={300} 
                   className="h-full w-full object-cover rounded-xl"
                   loading="lazy"
                 />

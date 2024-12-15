@@ -44,6 +44,8 @@ const Navbar: React.FC<NavbarProps> = ({ currentBannerIndex }) => {
           <Image
             src="/Group 22.png"
             alt="logo"
+            width={30} height={30} 
+            layout="responsive"
             className="h-12 w-12 sm:w-20 sm:h-20 bg-white object-contain"
           />
         </div>
@@ -73,6 +75,8 @@ const Navbar: React.FC<NavbarProps> = ({ currentBannerIndex }) => {
             <Image
               src="/mage_shopping-cart-fill1.png"
               alt="Cart"
+              width={500} height={300} 
+              layout="responsive"
               className="bg-yellow-600 cursor-pointer p-2 rounded-full w-10 h-10 hover:bg-yellow-500 transition-colors duration-200"
             />
           </div>
